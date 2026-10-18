@@ -1,0 +1,21 @@
+# Keep line endings predictable across machines.
+* text=auto
+
+# Deploy scripts must stay LF — they run in bash on the Linux server.
+*.sh text eol=lf
+docker-compose.yml text eol=lf
+Dockerfile text eol=lf
+*.conf text eol=lf
+*.disabled text eol=lf
+
+# Windows-side helpers
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.pdf binary
