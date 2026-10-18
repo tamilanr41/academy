@@ -36,6 +36,11 @@ function createApp() {
   };
   app.use(cors(corsOptions));
 
+  // Root ping — hosting platforms (Render, nginx, tunnels) probe `/` by default.
+  app.get('/', (_req, res) => {
+    res.json({ success: true, message: 'Academy API', health: '/api/health' });
+  });
+
   // Health check (no DB dependency beyond a readyState report)
   app.get('/api/health', (_req, res) => {
     const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
