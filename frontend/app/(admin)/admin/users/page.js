@@ -5,13 +5,15 @@ import { ResourceManager } from '@/components/admin/ResourceManager';
 import { USER_ROLES } from '@/lib/constants';
 import { humanize } from '@/lib/format';
 
+const ROLE_OPTIONS = USER_ROLES.filter((r) => r.value !== 'super_admin');
+
 export default function AdminUsersPage() {
   const fields = [
     { name: 'name', label: 'Name', type: 'text', required: true },
     { name: 'email', label: 'Email', type: 'email', required: true },
     { name: 'password', label: 'Password', type: 'password', hint: 'Leave blank to keep the current password when editing.', omitEmpty: true },
     { name: 'phone', label: 'Phone', type: 'tel' },
-    { name: 'role', label: 'Role', type: 'select', options: USER_ROLES },
+    { name: 'role', label: 'Role', type: 'select', options: ROLE_OPTIONS },
     { name: 'isActive', label: 'Active', type: 'checkbox' },
   ];
 
@@ -30,7 +32,7 @@ export default function AdminUsersPage() {
       itemLabel="user"
       columns={columns}
       fields={fields}
-      filters={[{ name: 'role', label: 'Role', options: USER_ROLES }]}
+      filters={[{ name: 'role', label: 'Role', options: ROLE_OPTIONS }]}
       defaultValues={{ role: 'student', isActive: true }}
       createLabel="New user"
     />

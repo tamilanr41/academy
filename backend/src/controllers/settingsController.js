@@ -77,8 +77,9 @@ const listUsers = asyncHandler(async (req, res) => {
   const { search, role, status, page, limit } = req.query;
   const { page: p, limit: l, skip } = parsePagination(req.query, { defaultLimit: 20 });
 
-  const filter = {};
-  if (role) filter.role = role;
+  // Super Admin accounts are intentionally never listed here.
+  const filter = { role: { $ne: 'super_admin' } };
+  if (role) filter.role = role === 'super_admin' ? '__none__' : role;
   if (status === 'active') filter.isActive = true;
   if (status === 'inactive') filter.isActive = false;
   if (search) {
