@@ -52,3 +52,19 @@ export async function uploadFile(file, folder = 'academy') {
   form.append('file', file);
   return clientFetch(`/api/admin/uploads?folder=${encodeURIComponent(folder)}`, { method: 'POST', body: form });
 }
+
+/** Replace the logged-in user's profile photo. */
+export async function uploadAvatar(file) {
+  const form = new FormData();
+  form.append('file', file);
+  return clientFetch('/api/auth/avatar', { method: 'POST', body: form });
+}
+
+/** Attach an identity document to the logged-in student's profile. */
+export async function uploadStudentDocument(file, { type = 'other', number = '' } = {}) {
+  const form = new FormData();
+  form.append('file', file);
+  form.append('type', type);
+  form.append('number', number);
+  return clientFetch('/api/student/documents', { method: 'POST', body: form });
+}

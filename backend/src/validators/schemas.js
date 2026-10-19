@@ -103,6 +103,51 @@ const updateProfileSchema = z.object({
     .optional(),
 });
 
+const studentProfileUpdateSchema = z.object({
+  name: z.string().trim().min(2, 'Name must be at least 2 characters').max(120).optional(),
+  phone: optionalPhoneField,
+  alternatePhone: optionalPhoneField,
+  whatsapp: optionalPhoneField,
+  dateOfBirth: dateField.optional(),
+  gender: z.enum(['male', 'female', 'other', 'prefer_not_to_say', '']).optional(),
+  qualification: z.string().trim().max(120).optional(),
+  occupation: z.string().trim().max(120).optional(),
+  bio: z.string().trim().max(1000).optional(),
+  college: z.string().trim().max(160).optional(),
+  yearOfStudy: z.string().trim().max(60).optional(),
+  specialization: z.string().trim().max(120).optional(),
+  interestedCourse: z.string().trim().max(160).optional(),
+  preferredMode: z.enum(['', 'online', 'offline', 'hybrid']).optional(),
+  preferredTiming: z.string().trim().max(60).optional(),
+  source: z
+    .enum(['', 'google', 'social_media', 'friend', 'relative', 'walk_in', 'advertisement', 'other'])
+    .optional(),
+  address: z
+    .object({
+      line1: z.string().max(200).optional(),
+      line2: z.string().max(200).optional(),
+      city: z.string().max(100).optional(),
+      state: z.string().max(100).optional(),
+      pincode: z.string().max(12).optional(),
+      country: z.string().max(100).optional(),
+    })
+    .optional(),
+  guardian: z
+    .object({
+      name: z.string().max(120).optional(),
+      phone: z.string().max(20).optional(),
+      relation: z.string().max(60).optional(),
+    })
+    .optional(),
+  emergencyContact: z
+    .object({
+      name: z.string().max(120).optional(),
+      phone: z.string().max(20).optional(),
+      relation: z.string().max(60).optional(),
+    })
+    .optional(),
+});
+
 const adminCreateUserSchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: emailField,
@@ -499,6 +544,7 @@ module.exports = {
   verifyEmailSchema,
   changePasswordSchema,
   updateProfileSchema,
+  studentProfileUpdateSchema,
   adminCreateUserSchema,
   adminUpdateUserSchema,
   courseSchema,

@@ -4,10 +4,12 @@ const enrollmentController = require('../controllers/enrollmentController');
 const newsletterController = require('../controllers/newsletterController');
 const paymentController = require('../controllers/paymentController');
 const courseController = require('../controllers/courseController');
+const studentController = require('../controllers/studentController');
 const validate = require('../middleware/validate');
 const { protect } = require('../middleware/auth');
 const { apiLimiter } = require('../middleware/rateLimit');
-const { reviewSchema, objectId } = require('../validators/schemas');
+const { reviewSchema, objectId, studentProfileUpdateSchema } = require('../validators/schemas');
+const { upload } = require('../services/uploadService');
 const { z } = require('zod');
 
 const router = express.Router();
@@ -15,6 +17,11 @@ const router = express.Router();
 router.use(protect, apiLimiter);
 
 /* --------------------------- profile / applications ------------------------- */
+
+router.get('/profile', studentController.myProfile);
+router.patch('/profile', validate(studentProfileUpdateSchema), studentController.updateMyProfile);
+router.post('/documents', upload.single('file'), studentController.uploadDocument);
+router.delete('/documents/:id', validate(z.object({ id: objectId }), 'params'), studentController.deleteDocument);
 
 router.get('/applications/my', applicationController.mine);
 router.get('/applications/my/:id', applicationController.mineById);
