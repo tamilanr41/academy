@@ -1,0 +1,29 @@
+# Netlify — Magma Minds Academy (frontend)
+#
+# Connect this GitHub repo in Netlify:  Site configuration → Build → Base directory = frontend
+# (this file already sets base/command/publish, so the UI just needs the env vars below)
+#
+# Required Netlify environment variables (Site configuration → Environment):
+#   BACKEND_URL           https://<your-hosted-api>       (e.g. https://academy-api.onrender.com)
+#   NEXT_PUBLIC_SITE_URL  https://<your-site>.netlify.app
+#
+# Note: /api/* and /uploads/* are rewritten to BACKEND_URL, so a backend must be
+# reachable from Netlify — a frontend-only deploy shows no data.
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Next.js runtime (SSR + rewrites/redirects + image optimization)
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[headers]]
+  for = "/logo.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
